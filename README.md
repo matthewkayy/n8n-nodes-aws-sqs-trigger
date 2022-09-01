@@ -2,9 +2,7 @@
 
 # n8n-nodes-aws-sqs-trigger
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
-
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+[n8n](https://www.n8n.io) Trigger node for consumuing queue messages from [AWS SQS](https://docs.aws.amazon.com/sqs/).
 
 ## How to install
 
