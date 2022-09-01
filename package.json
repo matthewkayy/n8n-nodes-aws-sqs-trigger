@@ -1,5 +1,5 @@
 {
-  "name": "@mkay/n8n-nodes-aws-sqs-trigger",
+  "name": "@mkayy/n8n-nodes-aws-sqs-trigger",
   "version": "0.1.0",
   "description": "Consume queue messages from AWS SQS in n8n",
   "keywords": [
@@ -11,13 +11,10 @@
   ],
   "license": "MIT",
   "homepage": "https://n8n.io",
-  "author": {
-    "name": "Matthew Kay",
-    "email": "matthewkay@live.com"
-  },
+  "author": "Matthew Kay <matthewkay@live.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger.git"
+    "url": "git+https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger.git"
   },
   "main": "index.js",
   "scripts": {
@@ -55,5 +52,8 @@
   "dependencies": {
     "aws4": "^1.11.0",
     "xml2js": "^0.4.23"
+  },
+  "bugs": {
+    "url": "https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger/issues"
   }
 }
