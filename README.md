@@ -4,29 +4,41 @@
 
 [n8n](https://www.n8n.io) Trigger node for consumuing queue messages from [AWS SQS](https://docs.aws.amazon.com/sqs/).
 
-## How to install
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-### Community Nodes (Recommended)
+[Installation](#installation)
 
-For users on n8n v0.187+, your instance owner can install this node from [Community nodes](https://docs.n8n.io/integrations/community-nodes/installation/).
+[Operations](#operations)
 
-1. Go to **Settings > Community nodes**.
-2. Select **Install a community node**.
-3. Enter `@mkay/n8n-nodes-aws-sqs-trigger` in **npm Package Name**.
-4. Check **"I understand the risks of installing unverified code from a public source. [More info](https://docs.n8n.io/integrations/community-nodes/risks/)"**.
-5. Click **Install**.
+[Credentials](#credentials)
 
-After installing the node, you can use it like any other node. n8n displays the node in search results in the **Nodes** panel.
+[Compatibility](#compatibility)
 
-### Manual installation
-To get started install the package in your n8n root directory:
+[Resources](#resources)
 
-`npm install @mkay/n8n-nodes-aws-sqs-trigger`
+[License](#license)
 
-For Docker-based deployments, add the following line before the font installation command in your [n8n Dockerfile](https://github.com/n8n-io/n8n/blob/master/docker/images/n8n/Dockerfile):
+## Installation
 
-`RUN cd /usr/local/lib/node_modules/n8n && npm install @mkay/n8n-nodes-aws-sqs-trigger`
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
+## Operations
+
+Receive messages from an AWS SQS queue on a defined trigger time.
+
+## Credentials
+
+This node uses the existing AWS credentials from n8n.
+
+## Compatibility
+
+n8n v0.187 and higher.
+
+## Resources
+
+* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+* [Amazon SQS | Message Queuing Service | AWS](https://aws.amazon.com/sqs/)
+  
 ## License
 
 [MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
