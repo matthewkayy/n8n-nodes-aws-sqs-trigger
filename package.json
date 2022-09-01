@@ -10,8 +10,11 @@
     "trigger"
   ],
   "license": "MIT",
-  "homepage": "https://n8n.io",
-  "author": "Matthew Kay <matthewkay@live.com>",
+  "homepage": "https://github.com/matthewkayy",
+  "author": {
+    "name": "Matthew Kay",
+    "email": "matthewkay@live.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger.git"
