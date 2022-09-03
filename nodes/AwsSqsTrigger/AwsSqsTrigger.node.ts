@@ -166,6 +166,8 @@ export class AwsSqsTrigger implements INodeType {
 		const receiveMessageParams = [
 			'Version=2012-11-05',
 			`Action=ReceiveMessage`,
+			'MessageAttributeName=All',
+			'AttributeName=All',
 		];
 
 		if (options.visibilityTimeout) {
