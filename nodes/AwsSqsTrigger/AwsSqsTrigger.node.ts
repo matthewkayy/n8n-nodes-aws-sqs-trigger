@@ -108,6 +108,13 @@ export class AwsSqsTrigger implements INodeType {
 						default: 1,
 						description: 'Maximum number of messages to return. SQS never returns more messages than this value but might return fewer.',
 					},
+					{
+						displayName: 'Wait Time Seconds',
+						name: 'waitTimeSeconds',
+						type: 'number',
+						default: 0,
+						description: 'Enable long-polling with a non-zero number of seconds. Maximum 20 seconds.',
+					},
 				],
 			},
 		],
@@ -176,6 +183,13 @@ export class AwsSqsTrigger implements INodeType {
 
 		if (options.maxNumberOfMessages) {
 			receiveMessageParams.push(`MaxNumberOfMessages=${options.maxNumberOfMessages}`);
+		}
+
+		if (options.waitTimeSeconds) {
+			if (options.waitTimeSeconds < 0 || options.waitTimeSeconds > 20) {
+				throw new NodeOperationError(this.getNode(), 'Wait Time Seconds must be between 0 and 20.');
+			}
+			receiveMessageParams.push(`WaitTimeSeconds=${options.waitTimeSeconds}`);
 		}
 
 		if (interval <= 0) {
@@ -250,19 +264,22 @@ export class AwsSqsTrigger implements INodeType {
 			throw new NodeApiError(this.getNode(), {message: 'The interval value is too large.'});
 		}
 
-		const intervalObj = setInterval(executeTrigger, intervalValue);
-
-		async function closeFunction() {
-			clearInterval(intervalObj);
+		let running = true;
+		let intervalObj = setTimeout(run, 0);
+		async function run() {
+			await executeTrigger();
+			if (running) {
+				intervalObj = setTimeout(run, intervalValue);
+			}
 		}
 
-		async function manualTriggerFunction() {
-			executeTrigger();
+		async function closeFunction() {
+			running = false;
+			clearTimeout(intervalObj);
 		}
 
 		return {
 			closeFunction,
-			manualTriggerFunction,
 		};
 	}
 }
