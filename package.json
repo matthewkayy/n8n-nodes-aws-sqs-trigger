@@ -1,6 +1,6 @@
 {
   "name": "@mkayy/n8n-nodes-aws-sqs-trigger",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "description": "Consume queue messages from AWS SQS in n8n",
   "keywords": [
     "n8n-community-node-package",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger.git"
+    "url": "https://github.com/matthewkayy/n8n-nodes-aws-sqs-trigger.git"
   },
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,8 @@
     "format": "prettier nodes --write",
     "lint": "tslint -p tsconfig.json -c tslint.json && eslint nodes package.json",
     "lintfix": "tslint --fix -p tsconfig.json -c tslint.json && eslint nodes package.json --fix",
-    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes package.json"
+    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes package.json",
+    "semantic-release": "semantic-release"
   },
   "files": [
     "dist"
@@ -50,7 +51,8 @@
     "n8n-workflow": "^0.107.0",
     "prettier": "^2.7.1",
     "tslint": "^6.1.2",
-    "typescript": "~4.6.0"
+    "typescript": "~4.6.0",
+    "semantic-release": "^19.0.5"
   },
   "dependencies": {
     "aws4": "^1.11.0",
