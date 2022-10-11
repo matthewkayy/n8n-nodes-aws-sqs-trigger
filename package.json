@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
     "@types/aws4": "^1.11.2",
     "@types/express": "^4.17.6",
     "@types/request-promise-native": "~1.0.15",
@@ -73,6 +74,16 @@
     }
   },
   "release": {
-    "branches": ["master", "next"]
+    "branches": [
+      "master",
+      "next"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
   }
 }
