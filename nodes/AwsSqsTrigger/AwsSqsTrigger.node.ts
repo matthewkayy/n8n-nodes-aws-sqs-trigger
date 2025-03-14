@@ -186,7 +186,7 @@ export class AwsSqsTrigger implements INodeType {
 		}
 
 		if (options.waitTimeSeconds) {
-			if (options.waitTimeSeconds < 0 || options.waitTimeSeconds > 20) {
+			if (typeof options.waitTimeSeconds === 'number' && (options.waitTimeSeconds < 0 || options.waitTimeSeconds > 20)) {
 				throw new NodeOperationError(this.getNode(), 'Wait Time Seconds must be between 0 and 20.');
 			}
 			receiveMessageParams.push(`WaitTimeSeconds=${options.waitTimeSeconds}`);
