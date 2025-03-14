@@ -49,7 +49,7 @@
     "@typescript-eslint/parser": "^5.29.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint-plugin-n8n-nodes-base": "^1.5.4",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "n8n-core": "^0.125.0",
     "n8n-workflow": "^0.107.0",
     "prettier": "^2.7.1",
