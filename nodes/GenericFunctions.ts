@@ -1,13 +1,14 @@
 import { URL } from 'url';
 import { Request, sign } from 'aws4';
-import { OptionsWithUri } from 'request';
 import { parseString as parseXml } from 'xml2js';
 
 import {
 	ICredentialDataDecryptedObject,
 	IExecuteFunctions,
 	IHookFunctions,
+	IHttpRequestMethods,
 	ILoadOptionsFunctions,
+	IRequestOptions,
 	ITriggerFunctions,
 	IWebhookFunctions,
 	NodeApiError,
@@ -42,9 +43,9 @@ export async function awsApiRequest(this: IHookFunctions | IExecuteFunctions | I
 	sign(signOpts, { accessKeyId: `${credentials.accessKeyId}`.trim(), secretAccessKey: `${credentials.secretAccessKey}`.trim() });
 
 
-	const options: OptionsWithUri = {
+	const options: IRequestOptions = {
 		headers: signOpts.headers,
-		method,
+		method: signOpts.method as IHttpRequestMethods,
 		uri: endpoint.href,
 		body: signOpts.body,
 	};
