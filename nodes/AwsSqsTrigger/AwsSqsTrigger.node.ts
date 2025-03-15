@@ -5,12 +5,11 @@ import {
 	INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
+	ITriggerFunctions,
 	ITriggerResponse,
 	NodeApiError,
 	NodeOperationError
 } from 'n8n-workflow';
-
-import { ITriggerFunctions } from 'n8n-core';
 
 import {
 	awsApiRequestSOAP,

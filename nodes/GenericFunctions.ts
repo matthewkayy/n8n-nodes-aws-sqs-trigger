@@ -4,15 +4,14 @@ import { OptionsWithUri } from 'request';
 import { parseString as parseXml } from 'xml2js';
 
 import {
+	ICredentialDataDecryptedObject,
 	IExecuteFunctions,
 	IHookFunctions,
 	ILoadOptionsFunctions,
 	ITriggerFunctions,
 	IWebhookFunctions,
-} from 'n8n-core';
-
-import {
-	ICredentialDataDecryptedObject, NodeApiError, NodeOperationError,
+	NodeApiError,
+	NodeOperationError,
 } from 'n8n-workflow';
 
 function getEndpointForService(service: string, credentials: ICredentialDataDecryptedObject): string {
