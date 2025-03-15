@@ -1,6 +1,6 @@
 {
   "name": "@mkayy/n8n-nodes-aws-sqs-trigger",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Consume queue messages from AWS SQS in n8n",
   "keywords": [
     "n8n-community-node-package",
