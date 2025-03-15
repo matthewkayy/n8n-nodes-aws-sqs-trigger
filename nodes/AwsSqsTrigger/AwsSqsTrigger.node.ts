@@ -8,6 +8,7 @@ import {
 	ITriggerFunctions,
 	ITriggerResponse,
 	NodeApiError,
+	NodeConnectionType,
 	NodeOperationError
 } from 'n8n-workflow';
 
@@ -28,7 +29,7 @@ export class AwsSqsTrigger implements INodeType {
 			name: 'AWS SQS Trigger',
 		},
 		inputs: [],
-		outputs: ['main'],
+		outputs: [NodeConnectionType.Main],
 		credentials: [
 			{
 				name: 'aws',
@@ -46,7 +47,8 @@ export class AwsSqsTrigger implements INodeType {
 				options: [],
 				default: '',
 				required: true,
-				description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
+				description:
+					'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>',
 			},
 			{
 				displayName: 'Interval',
@@ -98,21 +100,24 @@ export class AwsSqsTrigger implements INodeType {
 						name: 'visibilityTimeout',
 						type: 'number',
 						default: 30,
-						description: 'The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a receive message request',
+						description:
+							'The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a receive message request',
 					},
 					{
 						displayName: 'Max Number Of Messages',
 						name: 'maxNumberOfMessages',
 						type: 'number',
 						default: 1,
-						description: 'Maximum number of messages to return. SQS never returns more messages than this value but might return fewer.',
+						description:
+							'Maximum number of messages to return. SQS never returns more messages than this value but might return fewer.',
 					},
 					{
 						displayName: 'Wait Time Seconds',
 						name: 'waitTimeSeconds',
 						type: 'number',
 						default: 0,
-						description: 'Enable long-polling with a non-zero number of seconds. Maximum 20 seconds.',
+						description:
+							'Enable long-polling with a non-zero number of seconds. Maximum 20 seconds.',
 					},
 				],
 			},
@@ -123,10 +128,7 @@ export class AwsSqsTrigger implements INodeType {
 		loadOptions: {
 			// Get all the available queues to display them to user so that it can be selected easily
 			async getQueues(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-				const params = [
-					'Version=2012-11-05',
-					`Action=ListQueues`,
-				];
+				const params = ['Version=2012-11-05', `Action=ListQueues`];
 
 				let data;
 				try {
@@ -185,14 +187,20 @@ export class AwsSqsTrigger implements INodeType {
 		}
 
 		if (options.waitTimeSeconds) {
-			if (typeof options.waitTimeSeconds === 'number' && (options.waitTimeSeconds < 0 || options.waitTimeSeconds > 20)) {
+			if (
+				typeof options.waitTimeSeconds === 'number' &&
+				(options.waitTimeSeconds < 0 || options.waitTimeSeconds > 20)
+			) {
 				throw new NodeOperationError(this.getNode(), 'Wait Time Seconds must be between 0 and 20.');
 			}
 			receiveMessageParams.push(`WaitTimeSeconds=${options.waitTimeSeconds}`);
 		}
 
 		if (interval <= 0) {
-			throw new NodeOperationError(this.getNode(), 'The interval has to be set to at least 1 or higher!');
+			throw new NodeOperationError(
+				this.getNode(),
+				'The interval has to be set to at least 1 or higher!',
+			);
 		}
 
 		let intervalValue = interval;
@@ -205,7 +213,12 @@ export class AwsSqsTrigger implements INodeType {
 
 		const executeTrigger = async () => {
 			try {
-				const responseData = await awsApiRequestSOAP.call(this, 'sqs', 'GET', `${queuePath}?${receiveMessageParams.join('&')}`);
+				const responseData = await awsApiRequestSOAP.call(
+					this,
+					'sqs',
+					'GET',
+					`${queuePath}?${receiveMessageParams.join('&')}`,
+				);
 				const receiveMessageResult = responseData.ReceiveMessageResponse.ReceiveMessageResult;
 				const multipleMessagesReceived = Array.isArray(receiveMessageResult.Message);
 
@@ -213,30 +226,28 @@ export class AwsSqsTrigger implements INodeType {
 					let returnMessages: INodeExecutionData[] = [];
 
 					if (multipleMessagesReceived) {
-						returnMessages = receiveMessageResult.Message.map((message: {}) =>
-							{
-								return {json: message};
-							},
-						);
+						returnMessages = receiveMessageResult.Message.map((message: {}) => {
+							return { json: message };
+						});
 					} else {
-						returnMessages.push({json: receiveMessageResult.Message});
+						returnMessages.push({ json: receiveMessageResult.Message });
 					}
 
 					if (options.deleteMessages) {
-						const deleteMessagesParams = [
-							'Version=2012-11-05',
-						];
+						const deleteMessagesParams = ['Version=2012-11-05'];
 
 						if (multipleMessagesReceived) {
 							deleteMessagesParams.push(`Action=DeleteMessageBatch`);
 
 							for (let i = 0; i < receiveMessageResult.Message.length; i++) {
-								const deleteMessageBatchRequestId = (i + 1);
+								const deleteMessageBatchRequestId = i + 1;
 								const deleteMessageBatchRequestEntry = `DeleteMessageBatchRequestEntry.${deleteMessageBatchRequestId}`;
 
 								deleteMessagesParams.push(
 									`${deleteMessageBatchRequestEntry}.Id=msg${deleteMessageBatchRequestId}`,
-									`${deleteMessageBatchRequestEntry}.ReceiptHandle=${encodeURIComponent(receiveMessageResult.Message[i].ReceiptHandle)}`,
+									`${deleteMessageBatchRequestEntry}.ReceiptHandle=${encodeURIComponent(
+										receiveMessageResult.Message[i].ReceiptHandle,
+									)}`,
 								);
 							}
 						} else {
@@ -246,7 +257,12 @@ export class AwsSqsTrigger implements INodeType {
 							);
 						}
 
-						await awsApiRequestSOAP.call(this, 'sqs', 'GET', `${queuePath}?${deleteMessagesParams.join('&')}`);
+						await awsApiRequestSOAP.call(
+							this,
+							'sqs',
+							'GET',
+							`${queuePath}?${deleteMessagesParams.join('&')}`,
+						);
 					}
 
 					this.emit([returnMessages]);
@@ -260,7 +276,7 @@ export class AwsSqsTrigger implements INodeType {
 
 		// Reference: https://nodejs.org/api/timers.html#timers_setinterval_callback_delay_args
 		if (intervalValue > 2147483647) {
-			throw new NodeApiError(this.getNode(), {message: 'The interval value is too large.'});
+			throw new NodeApiError(this.getNode(), { message: 'The interval value is too large.' });
 		}
 
 		let running = true;
