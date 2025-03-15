@@ -50,7 +50,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint-plugin-n8n-nodes-base": "^1.5.4",
     "gulp": "^5.0.0",
-    "n8n-core": "^0.125.0",
+    "n8n-core": "^1.14.1",
     "n8n-workflow": "^0.107.0",
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.5",
